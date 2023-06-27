@@ -125,12 +125,18 @@ void login(){
     arquivo.open((char_array), ios::in);
     arquivo.seekp(0, arquivo.beg);
     
+    // struct filme {
+    //     char nome[50];
+    //     // int ano;
+    // };
+    
+    // struct filme categorias[10];
+    
     struct filme {
         char nome[50];
-        // int ano;
     };
     
-    struct filme categorias;
+    struct filme categorias[10];
     
     char ch;
     
@@ -139,13 +145,71 @@ void login(){
     int cont = 0;
     int i = 0;
     while (arquivo.get(ch)){
-        cout << ch;
         nome_filme += ch;
         if (ch == '\n') {
+            char nome_filme_char[50];
+            nome_filme.erase(nome_filme.length() - 1);
+            
+            strcpy(nome_filme_char, nome_filme.c_str());
+            
+            if (cont > 0){
+                strcpy(categorias[i-1].nome, nome_filme_char);
+            }
             
             cont += 1;
+            i+=1;
+            nome_filme = "";
         }
         
+    }
+    
+    arquivo.close();
+    system("cls");
+    
+    cout << "Aqui estao alguns filmes para voce: " << endl;
+    
+    string categoria;
+    char char_categoria[50];
+    struct filme filmes[100];
+    int num_filmes = 0;
+    int j = 0;
+    
+    for(int i=0; i<3; i++){
+        // cout << "Rodando uma vez" << endl;
+        categoria = "movies/";
+        categoria += categorias[i].nome;
+        categoria += ".txt";
+        
+        strcpy(char_categoria, categoria.c_str());
+        
+        arquivo.open(char_categoria, ios::in);
+        char ch;
+        string filme = "";
+        while(arquivo.get(ch)){
+            filme += ch;
+            if (ch == '\n'){
+                filme.erase(filme.length() - 1);
+                strcpy(filmes[j].nome, filme.c_str());
+                
+                j += 1;
+                
+                filme = "";
+                num_filmes += 1;
+            }
+        }
+        arquivo.close();
+        
+    }
+    for(int i=0; i<num_filmes; i++){
+        cout << filmes[i].nome << endl;
+    }
+    char escolha;
+    cout << "Deseja visualizar mais alguns filmes (Y/N): ";
+    
+    cin >> escolha;
+    
+    if(escolha == 'Y' || escolha == 'y'){
+        cout << "Qual a categoria de filmes pretende pesquisar?" << endl;
     }
     
 }
