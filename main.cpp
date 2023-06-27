@@ -155,7 +155,6 @@ void login(){
             if (cont > 0){
                 strcpy(categorias[i-1].nome, nome_filme_char);
             }
-            
             cont += 1;
             i+=1;
             nome_filme = "";
@@ -204,13 +203,72 @@ void login(){
         cout << filmes[i].nome << endl;
     }
     char escolha;
-    cout << "Deseja visualizar mais alguns filmes (Y/N): ";
     
-    cin >> escolha;
+    do{
+        cout << "Deseja visualizar mais alguns filmes (Y/N): ";
     
-    if(escolha == 'Y' || escolha == 'y'){
-        cout << "Qual a categoria de filmes pretende pesquisar?" << endl;
+        cin >> escolha;
+        
+        if(escolha == 'Y' || escolha == 'y'){
+            cout << "Qual a categoria de filmes pretende pesquisar?" << endl;
+            cout << "1 - Ficcao" << endl;
+            cout << "2 - Comedia" << endl;
+            cout << "3 - Infantil" << endl;
+            cout << "4 - Romance" << endl;
+            cout << "5 - Acao" << endl;
+            
+            int num_escolha;
+            
+            cout << "Insira o numero da sua escolha: ";
+            cin >> num_escolha;
+            
+            string categoria_escolhida;
+            
+            switch(num_escolha)
+            {
+                case 1:
+                    categoria_escolhida = "ficcao";
+                    break;
+                case 2:
+                    categoria_escolhida = "comedia";
+                    break;
+                case 3:
+                    categoria_escolhida = "infantil";
+                    break;
+                case 4:
+                    categoria_escolhida = "romance";
+                    break;
+                case 5:
+                    categoria_escolhida = "acao";
+                    break;
+            }
+            
+            string caminho_arquivo = "movies/";
+            caminho_arquivo += categoria_escolhida;
+            caminho_arquivo += ".txt";
+            
+            char caminho_char[50];
+            
+            strcpy(caminho_char, caminho_arquivo.c_str());
+            
+            fstream arquivo;
+            arquivo.open(caminho_char, ios::in);
+            string filme = "";
+            while(arquivo.get(ch)){
+                filme += ch;
+                if (ch == '\n'){
+                    filme.erase(filme.length() - 1);
+                    
+                    cout << filme << endl;
+                    
+                    filme = "";
+                    
+                }
+            }
+        }
     }
+    while(escolha == 'Y' || escolha == 'y');
+    
     
 }
 
