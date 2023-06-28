@@ -10,7 +10,7 @@ using namespace std;
 
 #define GRN "\e[0;33m"
 
-void cadastrarNovoUsuario(){
+int cadastrarNovoUsuario(){
     cout << "Cadastrando novo usuario...";
     
     cin.ignore();
@@ -23,6 +23,15 @@ void cadastrarNovoUsuario(){
     
     cout << "Nome do usuario: ";
     cin >> nome;
+    
+    int idade;
+    
+    cout << "Digite sua idade: ";
+    cin >> idade;
+    
+    if(idade < 12){
+        return 1;
+    }
     
     int tam_str_nome = strlen(nome);
     
@@ -90,7 +99,7 @@ void cadastrarNovoUsuario(){
     
 }
 
-void login(){
+int login(){
     system("cls");
     cout << "***** LOGIN *****" << endl;
     cout << "Usuario: ";
@@ -269,18 +278,18 @@ void login(){
     }
     while(escolha == 'Y' || escolha == 'y');
     
-    
+    return 1;
 }
 
 void excluirConta(){
     cout << "Excluindo conta" << endl;
 }
 
-void visualizarFilmes(){
-    cout << "Visualizando filmes" << endl;
-}
+// void visualizarFilmes(){
+//     cout << "Visualizando filmes" << endl;
+// }
 
-void renderizarTelaInicial() {
+int renderizarTelaInicial() {
     system("cls");
 
     cout << GRN "**************** INFINITY STREAM ****************" << endl;
@@ -289,23 +298,40 @@ void renderizarTelaInicial() {
     cout << "1 - Cadastrar um novo usuario." << endl;
     cout << "2 - Fazer login na plataforma." << endl;
     cout << "3 - Excluir uma conta." << endl;
-    cout << "4 - Visualizar filmes por genero." << endl;
+    cout << "4 - Sair." << endl;
     
     int escolha = -1;
     
     // do{
-        cout << "Insira o numero correspondente a sua escolha: ";
-        cin >> escolha;
+    cout << "Insira o numero correspondente a sua escolha: ";
+    cin >> escolha;
     // }
     // while(escolha < 1 || escolha > 4);
     
     switch (escolha){
         case 1:
-            cadastrarNovoUsuario();
+            int retorno;
+            retorno = cadastrarNovoUsuario();
+            
+            if (retorno == 1){
+                cout << "Voce nao pode se cadastrar" << endl;
+                int x;
+                
+                do{
+                    cout << "Digite 1 para voltar ao menu..." << endl;
+                    
+                    cin >> x;
+                }
+                while(x != 1);
+                
+                return 1;
+            }
+            return 1;
             break;
         
         case 2:
             login();
+            return 1;
             break;
         
         case 3:
@@ -313,7 +339,7 @@ void renderizarTelaInicial() {
             break;
         
         case 4:
-            visualizarFilmes();
+            return 0;
             break;
     }
     
@@ -323,7 +349,13 @@ int main()
 {
     setlocale(LC_ALL, "Portuguese");
     
-    renderizarTelaInicial();
+    int render = 1;
+    
+    do{
+        render = renderizarTelaInicial();
+        
+    }
+    while(render == 1);
     
     return 0;
 }
